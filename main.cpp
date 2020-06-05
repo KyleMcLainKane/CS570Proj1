@@ -1,12 +1,5 @@
-#include <iostream>
-#include <fstream>
-#include <pthread.h>
-#include <unistd.h>
-#include <semaphore.h>
+#include "main.h"
 
-#define THREAD_COUNT 7
-sem_t FLAG;
-using namespace std;
 
 // Create file name "QUOTE.txt" in the current working directory
 void createFile(){
@@ -61,10 +54,6 @@ void* writeOddQuote(void* arg) {
         file.close();
 
         sem_post(&FLAG); // Release Semaphore
-
-        
-       
-        
         
     }
     return 0;
@@ -78,7 +67,7 @@ void runThreads() {
     
     int value;
     sem_getvalue(&FLAG, &value);
-    cout << "The value of the semaphors after init is " << value << endl;
+    
     
     pthread_t threads[THREAD_COUNT]; // Used to uniquely identify threads
     
@@ -86,8 +75,6 @@ void runThreads() {
         sem_wait(&FLAG); // Lock Semaphore
         if (i % 2==0){  // Even Threads 0,2,4,6
             pthread_create(&threads[i], NULL, writeEvenQuote, NULL);
-            cout << "Thread " << threads[i] << " was created" << endl;
-            
         }
         else {  // Odd Threads 1,3,5
             pthread_create(&threads[i], NULL, writeOddQuote, NULL);
