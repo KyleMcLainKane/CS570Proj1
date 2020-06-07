@@ -87,10 +87,7 @@ void runThreads() {
     cout << "WE ARE DONE" << endl;                          // Finishing message to terminal
 }
 
-
-
 int main() {
     createFile();
     runThreads();
-
 }
